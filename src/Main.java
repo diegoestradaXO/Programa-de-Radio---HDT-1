@@ -1,21 +1,40 @@
 /**
- * Este es el main del radio, donde puede verse su funcionamiento. 
+ * Este es el main del radio, donde puede verse su funcionamiento.
  * @ Diego Estrada e Isabel Ortiz
  */
 import java.util.Scanner;
 public class Main {
     /**
-     * Este es el metodo principal 
-     * @param args argumentos del main 
+     * Este es el metodo principal
+     * @param args argumentos del main
      */
     public static void main (String[] args) {
         Radio r = new MyRadio();
         boolean wantsToContinue = true;
+        String display;
         do {
+            //Se crea la interfaz que mostrará el estado actual de la radio
+            display = " Radio\n\t Estado Actual: ";
+            if (r.getState()) {
+                display += "Encendido ";
+                display += "\n\t Frecuencia: ";
+                if (r.getFrequency()) {
+                    display += "AM ";
+                } else {
+                    display += "FM ";
+                }
+                display += "\n\t Estacion: " + r.getStation();
+            } else {
+                display += "Apagado ";
+                display += "\n\t Frecuencia: ----";
+                display += "\n\t Estacion actual: ----";
+            }
             if (r.getState() == false) {
-                System.out.println(r);
-               
-                //Se crea el menu con las diferentes opciones. 
+                //Se muestra el estado actual de la radio.
+                System.out.println("==============================================");
+                System.out.println(display);
+                System.out.println("==============================================");
+                //Se crea el menu con las diferentes opciones.
                 System.out.println("-----Menu-----\n" +
                         "1.Power On/Off\n" +
                         "2.Cambiar de frecuencia\n" +
@@ -23,12 +42,12 @@ public class Main {
                         "4.Guardar estacion en boton\n" +
                         "5.Seleccionar estacion en boton\n" +
                         "6.Salir del programa");
-                //Se le pide al usuario que escoja una opcion de la radio. 
+                //Se le pide al usuario que escoja una opcion de la radio.
                 System.out.println("\nEscoja una opcion:");
                 @SuppressWarnings("resource")
-				Scanner input = new Scanner(System.in);
+                Scanner input = new Scanner(System.in);
                 int option = input.nextInt();
-                //Si el usuario escoje la opcion 1 se enciende la radio 
+                //Si el usuario escoje la opcion 1 se enciende la radio
                 if (option == 1) {
                     System.out.println("Encendiendo radio...");
                     r.toggle();
@@ -38,7 +57,11 @@ public class Main {
                     System.out.println("El radio esta apagado, enciendelo antes...");
                 }
             } else {
-                System.out.println(r);
+                //Se muestra el estado actual de la radio.
+                System.out.println("==============================================");
+                System.out.println(display);
+                System.out.println("==============================================");
+                //Se muestra el menu.
                 System.out.println("-----Menu-----\n" +
                         "1.Power On/Off\n" +
                         "2.Cambiar de frecuencia\n" +
@@ -48,19 +71,19 @@ public class Main {
                         "6.Salir del programa");
                 System.out.println("\nEscoja una opcion:");
                 @SuppressWarnings("resource")
-				Scanner inputON = new Scanner(System.in);
+                Scanner inputON = new Scanner(System.in);
                 int optionON = inputON.nextInt();
-              //Si el usuario escoje la opcion 1, se ejecuta el metodo toggle
+                //Si el usuario escoje la opcion 1, se ejecuta el metodo toggle
                 if (optionON == 1){
                     r.toggle();
-              //Si el usuario escoje la opcion 2, se ejecuta el metodo para cambiar frecuencia 
+                    //Si el usuario escoje la opcion 2, se ejecuta el metodo para cambiar frecuencia
                 }else if(optionON == 2){
                     r.changeFrequency();
-              ////Si el usuario escoje la opcion 3, se ejecuta el metodo para cambiar estaciones
+                    ////Si el usuario escoje la opcion 3, se ejecuta el metodo para cambiar estaciones
                 }else if (optionON == 3){
                     System.out.println("1.Subir\n2.Bajar\n>Seleccione opcion:");
                     @SuppressWarnings("resource")
-					Scanner upOrDown = new Scanner(System.in);
+                    Scanner upOrDown = new Scanner(System.in);
                     int upOrDownInt = upOrDown.nextInt();
                     //Si el usuario escoje opcion 1, la estacion sube
                     if (upOrDownInt == 1) {
@@ -70,31 +93,32 @@ public class Main {
                     if (upOrDownInt == 2) {
                         r.changeStation(false);
                     }
-                    
-                // Si el usuario escoje la opcion 4, se guarda la estacion en un boton enumerado del 1 a 12. 
+
+                    // Si el usuario escoje la opcion 4, se guarda la estacion en un boton enumerado del 1 a 12.
                 }else if (optionON == 4){
+                    System.out.println("_____________________________________________________");
+                    System.out.println("||1| |2| |3| |4| |5| |6| |7| |8| |9| |10| |11| |12| |");
                     System.out.println("Escriba el numero de boton en el que desea guardar la actual estacion (1-12): ");
                     @SuppressWarnings("resource")
-					Scanner saveButtonInput = new Scanner(System.in);
+                    Scanner saveButtonInput = new Scanner(System.in);
                     int saveButtonInt = saveButtonInput.nextInt();
                     if (saveButtonInt < 13 && saveButtonInt > 0) {
                         r.saveStation(saveButtonInt);
                     } else {
                         System.out.println("Invalido, ingresa un numero entre 1 y 12");
                     }
-                // Si el usuario escoje la opcion 5, puede seleccionar alguna estacion con los botones. 
+                    // Si el usuario escoje la opcion 5, puede seleccionar alguna estacion con los botones.
                 }else if (optionON == 5){
+                    System.out.println("_____________________________________________________");
+                    System.out.println("||1| |2| |3| |4| |5| |6| |7| |8| |9| |10| |11| |12| |");
                     System.out.println("Escriba el numero de boton con la estacion que desea sintonizar (1-12): ");
                     @SuppressWarnings("resource")
-					Scanner changeStationButtonInput = new Scanner(System.in);
+                    Scanner changeStationButtonInput = new Scanner(System.in);
                     int changeStationButtonInt = changeStationButtonInput.nextInt();
-                    @SuppressWarnings("unused")
-					double oldStation = r.getStation();
-                    @SuppressWarnings("unused")
-					boolean oldFrequency = r.getFrequency();
                     if (changeStationButtonInt < 13 && changeStationButtonInt > 0) {
                         r.changeStationButton(changeStationButtonInt);
                         if (r.getStation() == 0.0){
+                            System.out.println("Este botón no tiene guardado ninguna estación, cambiando de frecuencia...");
                             r.changeFrequency();
                         }
                     } else {
@@ -110,5 +134,5 @@ public class Main {
             }
 
         }while(wantsToContinue);
-     }
+    }
 }
